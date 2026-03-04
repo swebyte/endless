@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@colyseus/sdk": "^0.17.34",
     "@dimforge/rapier3d-compat": "^0.19.3",
     "@types/three": "^0.182.0",
     "cors": "^2.8.5",

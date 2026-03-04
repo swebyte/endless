@@ -1,29 +1,22 @@
 const path = require("path");
 const glob = require("glob");
 const webpack = require("webpack");
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
-function resolve (dir) {
-  return path.join(__dirname, dir)
+function resolve(dir) {
+  return path.join(__dirname, dir);
 }
 
 function getDevFiles() {
   const files = glob.sync(path.resolve("./Assets") + "/**/*.@(ts|js)", {
-    ignore: [
-      "**/*/_Editor/**/*",
-      "**/*.d.ts",
-      "**/*@(webpack.config.user.js)"
-    ]
+    ignore: ["**/*/_Editor/**/*", "**/*.d.ts", "**/*@(webpack.config.user.js)"],
   });
   return files;
 }
 
 function getEditorFiles() {
-  const files = glob.sync( resolve("./Assets") + "/**/*.@(ts|js)", {
-    ignore: [
-      "**/*.d.ts",
-      "**/*@(webpack.config.user.js)"
-    ]
+  const files = glob.sync(resolve("./Assets") + "/**/*.@(ts|js)", {
+    ignore: ["**/*.d.ts", "**/*@(webpack.config.user.js)"],
   });
   return files;
 }
@@ -42,7 +35,7 @@ function getEntry() {
     entry["rogue-editor-user-scripts"] = {
       import: editorFiles,
       dependOn: "rogue-engine-user-scripts",
-    }
+    };
   }
 
   return entry;
@@ -62,35 +55,32 @@ module.exports = {
       commonjs: "rogue-engine",
       commonjs2: "rogue-engine",
       amd: "rogue-engine",
-      root: "rogue-engine"
+      root: "rogue-engine",
     },
     "rogue-editor": {
       commonjs: "rogue-editor",
       commonjs2: "rogue-editor",
       amd: "rogue-editor",
-      root: "rogue-editor"
+      root: "rogue-editor",
     },
     three: {
       commonjs: "three",
       commonjs2: "three",
       amd: "three",
-      root: "three"
+      root: "three",
     },
   },
   resolve: {
     extensions: [".ts", ".js", ".json", "*"],
-    modules: [
-      resolve("node_modules"),
-      resolve("_Rogue")
-    ],
+    modules: [resolve("node_modules"), resolve("_Rogue")],
     alias: {
-      "Assets": resolve("Assets"),
+      Assets: resolve("Assets"),
       "rogue-engine": resolve("_Rogue/rogue-engine"),
-      "@RE": path.join(__dirname, './Assets/rogue_packages'),
+      "@RE": path.join(__dirname, "./Assets/rogue_packages"),
       "three/addons": "three/examples/jsm/",
       "three/nodes": "three/examples/jsm/nodes/Nodes",
     },
-    fallback: { "path": false, "fs": false }
+    fallback: { path: false, fs: false },
   },
   module: {
     rules: [
@@ -100,33 +90,33 @@ module.exports = {
         use: {
           loader: "esbuild-loader",
           options: {
-            loader: 'ts',
+            loader: "ts",
             target: "es2020",
             keepNames: true,
           },
         },
-      }
-    ]
+      },
+    ],
   },
   devServer: {
     historyApiFallback: true,
     noInfo: false,
     overlay: true,
     disableHostCheck: true,
-    clientLogLevel: "warning"
+    clientLogLevel: "warning",
   },
   watchOptions: {
-    aggregateTimeout: 200
+    aggregateTimeout: 200,
   },
   performance: {
-    hints: false
+    hints: false,
   },
   experiments: {
-    topLevelAwait: true
+    topLevelAwait: true,
   },
   devtool: "source-map",
-  plugins: [new ForkTsCheckerWebpackPlugin()]
-}
+  plugins: [new ForkTsCheckerWebpackPlugin()],
+};
 
 if (process.env.NODE_ENV === "production") {
   module.exports.devtool = "source-map";
@@ -134,14 +124,17 @@ if (process.env.NODE_ENV === "production") {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: '"production"'
-      }
+        NODE_ENV: '"production"',
+      },
     }),
 
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
+
     new webpack.LoaderOptionsPlugin({
-      minimize: false
+      minimize: false,
     }),
   ]);
 }
