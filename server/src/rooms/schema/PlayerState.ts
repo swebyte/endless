@@ -16,4 +16,7 @@ export class PlayerState extends Schema {
   @type("float32") vx: number = 0;
   @type("float32") vy: number = 0;
   @type("float32") vz: number = 0;
+
+  // Animation
+  @type("float32") dirLength: number = 0;
 }

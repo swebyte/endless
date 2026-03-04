@@ -13,6 +13,7 @@ interface TransformMessage {
   vx: number;
   vy: number;
   vz: number;
+  dirLength: number;
 }
 
 export class MyRoom extends Room {
@@ -34,6 +35,7 @@ export class MyRoom extends Room {
       player.vx = data.vx;
       player.vy = data.vy;
       player.vz = data.vz;
+      player.dirLength = data.dirLength;
     },
   };
 

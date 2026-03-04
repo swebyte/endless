@@ -115,7 +115,6 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
   constructor() {
     super(...arguments);
     this.remotePlayers = new Map();
-    this.remoteTargets = new Map();
   }
   static get instance() {
     return this._instance;
@@ -123,8 +122,20 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
   static get isReady() {
     return !!this._instance?.room;
   }
-  static sendTransform(px, py, pz, qx, qy, qz, qw, vx, vy, vz) {
-    this._instance?.sendTransform(px, py, pz, qx, qy, qz, qw, vx, vy, vz);
+  static sendTransform(px, py, pz, qx, qy, qz, qw, vx, vy, vz, dirLength) {
+    this._instance?.room?.send("transform", {
+      px,
+      py,
+      pz,
+      qx,
+      qy,
+      qz,
+      qw,
+      vx,
+      vy,
+      vz,
+      dirLength
+    });
   }
   async start() {
     NetworkManager._instance = this;
@@ -148,11 +159,9 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
     callbacks.onAdd("players", (player2, sessionId) => {
       if (sessionId === this.room.sessionId)
         return;
+      console.log("Remote player joined:", sessionId);
       const mesh = this.prefab.instantiate();
       this.remotePlayers.set(sessionId, mesh);
-      const pc = _PlayerController_re__WEBPACK_IMPORTED_MODULE_6__["default"].get(mesh);
-      if (pc)
-        pc.enabled = false;
       const kkc = _RE_RogueEngine_rogue_rapier_Components_RapierKinematicCharacterController_re__WEBPACK_IMPORTED_MODULE_4__["default"].get(mesh);
       if (kkc)
         kkc.enabled = false;
@@ -162,38 +171,28 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
       const body2 = _RE_RogueEngine_rogue_rapier_Components_RapierBody_re__WEBPACK_IMPORTED_MODULE_3__["default"].get(mesh);
       if (body2)
         rogue_engine__WEBPACK_IMPORTED_MODULE_0__.removeComponent(body2);
-      this.remoteTargets.set(sessionId, {
-        position: new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(),
-        quaternion: new three__WEBPACK_IMPORTED_MODULE_1__.Quaternion()
-      });
+      const pc = _PlayerController_re__WEBPACK_IMPORTED_MODULE_6__["default"].get(mesh);
+      if (pc) {
+        pc.isRemote = true;
+        pc.targetPosition = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3();
+        pc.targetQuaternion = new three__WEBPACK_IMPORTED_MODULE_1__.Quaternion();
+      }
       callbacks.onChange(player2, () => {
-        const target = this.remoteTargets.get(sessionId);
-        if (!target)
-          return;
-        target.position.set(player2.px, player2.py, player2.pz);
-        target.quaternion.set(player2.qx, player2.qy, player2.qz, player2.qw);
+        if (pc) {
+          pc.targetPosition.set(player2.px, player2.py, player2.pz);
+          pc.targetQuaternion.set(player2.qx, player2.qy, player2.qz, player2.qw);
+          pc.networkDirLength = player2.dirLength;
+        }
       });
     });
     callbacks.onRemove("players", (_, sessionId) => {
+      console.log("Remote player left:", sessionId);
       const mesh = this.remotePlayers.get(sessionId);
       if (mesh) {
         mesh.parent?.remove(mesh);
         this.remotePlayers.delete(sessionId);
-        this.remoteTargets.delete(sessionId);
       }
     });
-  }
-  update() {
-    this.remotePlayers.forEach((mesh, sessionId) => {
-      const target = this.remoteTargets.get(sessionId);
-      if (!target)
-        return;
-      mesh.position.lerp(target.position, 0.2);
-      mesh.quaternion.slerp(target.quaternion, 0.2);
-    });
-  }
-  sendTransform(px, py, pz, qx, qy, qz, qw, vx, vy, vz) {
-    this.room?.send("transform", { px, py, pz, qx, qy, qz, qw, vx, vy, vz });
   }
   onDisable() {
     this.room?.leave();
@@ -227,7 +226,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _RE_RogueEngine_rogue_rapier_Components_RapierKinematicCharacterController_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @RE/RogueEngine/rogue-rapier/Components/RapierKinematicCharacterController.re */ "./Assets/rogue_packages/RogueEngine/rogue-rapier/Components/RapierKinematicCharacterController.re.ts");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _NetworkManager_re__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NetworkManager.re */ "./Assets/Scripts/NetworkManager.re.ts");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _NetworkManager_re__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NetworkManager.re */ "./Assets/Scripts/NetworkManager.re.ts");
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
@@ -244,15 +245,33 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 
 
+
 let PlayerController = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Component {
   constructor() {
     super(...arguments);
+    this.isRemote = false;
+    this.targetPosition = new three__WEBPACK_IMPORTED_MODULE_3__.Vector3();
+    this.targetQuaternion = new three__WEBPACK_IMPORTED_MODULE_3__.Quaternion();
+    this.networkDirLength = 0;
+    this.networkVelocity = new three__WEBPACK_IMPORTED_MODULE_3__.Vector3();
     this.sendRate = 0.05;
     this.sendTimer = 0;
   }
-  init() {
-  }
   update() {
+    if (this.isRemote) {
+      this.targetPosition.x += this.networkVelocity.x * rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Runtime.deltaTime;
+      this.targetPosition.y += this.networkVelocity.y * rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Runtime.deltaTime;
+      this.targetPosition.z += this.networkVelocity.z * rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Runtime.deltaTime;
+      this.object3d.position.lerp(this.targetPosition, 0.2);
+      this.object3d.quaternion.slerp(this.targetQuaternion, 0.2);
+      if (this.networkDirLength > 0) {
+        this.animator.setBaseAction("idle");
+        this.animator.mix("run", 0.1, this.networkDirLength);
+      } else {
+        this.animator.mix("idle");
+      }
+      return;
+    }
     if (this.controller.isGrounded) {
       const dirLength = this.controller.movementDirection.length();
       if (dirLength > 0) {
@@ -264,15 +283,15 @@ let PlayerController = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_2__.C
     } else {
       this.animator.mix("falling");
     }
-    this.updateNetwork();
-  }
-  updateNetwork() {
     this.sendTimer += rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Runtime.deltaTime;
     if (this.sendTimer >= this.sendRate) {
       this.sendTimer = 0;
       const p = this.object3d.position;
       const q = this.object3d.quaternion;
-      _NetworkManager_re__WEBPACK_IMPORTED_MODULE_3__["default"].sendTransform(p.x, p.y, p.z, q.x, q.y, q.z, q.w, 0, 0, 0);
+      const dir = this.controller.movementDirection;
+      const vel = this.controller.playerVelocity;
+      const dirLength = dir.length();
+      _NetworkManager_re__WEBPACK_IMPORTED_MODULE_4__["default"].sendTransform(p.x, p.y, p.z, q.x, q.y, q.z, q.w, vel.x, vel.y, vel.z, dirLength);
     }
   }
 };

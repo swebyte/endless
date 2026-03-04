@@ -1,6 +1,7 @@
 import RogueAnimator from "@RE/RogueEngine/rogue-animator/RogueAnimator.re";
 import RapierKinematicCharacterController from "@RE/RogueEngine/rogue-rapier/Components/RapierKinematicCharacterController.re";
 import * as RE from "rogue-engine";
+import * as THREE from "three";
 import NetworkManager from "./NetworkManager.re";
 
 @RE.registerComponent
@@ -8,17 +9,37 @@ export default class PlayerController extends RE.Component {
   @RapierKinematicCharacterController.require()
   controller!: RapierKinematicCharacterController;
 
-  // @NetworkManager.require()
-  // net!: NetworkManager;
-
   @RogueAnimator.require()
   animator!: RogueAnimator;
+
+  isRemote: boolean = false;
+  targetPosition: THREE.Vector3 = new THREE.Vector3();
+  targetQuaternion: THREE.Quaternion = new THREE.Quaternion();
+  networkDirLength: number = 0;
+  networkVelocity: THREE.Vector3 = new THREE.Vector3();
 
   private sendRate = 0.05;
   private sendTimer = 0;
 
-  init() {}
   update() {
+    if (this.isRemote) {
+      this.targetPosition.x += this.networkVelocity.x * RE.Runtime.deltaTime;
+      this.targetPosition.y += this.networkVelocity.y * RE.Runtime.deltaTime;
+      this.targetPosition.z += this.networkVelocity.z * RE.Runtime.deltaTime;
+      // Interpolate towards server position
+      this.object3d.position.lerp(this.targetPosition, 0.2);
+      this.object3d.quaternion.slerp(this.targetQuaternion, 0.2);
+
+      if (this.networkDirLength > 0) {
+        this.animator.setBaseAction("idle");
+        this.animator.mix("run", 0.1, this.networkDirLength);
+      } else {
+        this.animator.mix("idle");
+      }
+      return;
+    }
+
+    // Local player logic
     if (this.controller.isGrounded) {
       const dirLength = this.controller.movementDirection.length();
       if (dirLength > 0) {
@@ -31,16 +52,27 @@ export default class PlayerController extends RE.Component {
       this.animator.mix("falling");
     }
 
-    this.updateNetwork();
-  }
-
-  private updateNetwork() {
     this.sendTimer += RE.Runtime.deltaTime;
     if (this.sendTimer >= this.sendRate) {
       this.sendTimer = 0;
       const p = this.object3d.position;
       const q = this.object3d.quaternion;
-      NetworkManager.sendTransform(p.x, p.y, p.z, q.x, q.y, q.z, q.w, 0, 0, 0);
+      const dir = this.controller.movementDirection;
+      const vel = this.controller.playerVelocity;
+      const dirLength = dir.length();
+      NetworkManager.sendTransform(
+        p.x,
+        p.y,
+        p.z,
+        q.x,
+        q.y,
+        q.z,
+        q.w,
+        vel.x,
+        vel.y,
+        vel.z,
+        dirLength,
+      );
     }
   }
 }
