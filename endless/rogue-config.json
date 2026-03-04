@@ -1,1 +1,10 @@
-{"title":"Project","scenes":[], "projectVersion": 30}
+{
+  "title": "Endless",
+  "scenes": [
+    {
+      "name": "world1",
+      "uuid": "31eebf83-ae58-47ce-bfa0-e0cd08a91387"
+    }
+  ],
+  "projectVersion": 30
+}
