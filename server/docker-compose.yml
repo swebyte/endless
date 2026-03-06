@@ -1,0 +1,13 @@
+services:
+  colyseus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: endless-colyseus:latest
+    container_name: endless-colyseus
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 2567
+    ports:
+      - "2567:2567"
