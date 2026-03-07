@@ -53,7 +53,9 @@ export default class NetworkManager extends RE.Component {
 
   async start() {
     NetworkManager._instance = this;
-    this.client = new Client("http://localhost:2567");
+    // this.client = new Client("http://localhost:2567");
+    this.client = new Client("https://endless-server.swevin.se");
+
     this.room = await this.client.joinOrCreate("my_room");
 
     window.addEventListener("beforeunload", () => {
@@ -92,7 +94,7 @@ export default class NetworkManager extends RE.Component {
       const pc = PlayerController.get(mesh);
       if (pc) {
         pc.isRemote = true;
-        pc.targetPosition = new THREE.Vector3();
+        pc.targetPosition = new THREE.Vector3(0, 20, 0);
         pc.targetQuaternion = new THREE.Quaternion();
       }
 
@@ -101,6 +103,7 @@ export default class NetworkManager extends RE.Component {
           pc.targetPosition.set(player.px, player.py, player.pz);
           pc.targetQuaternion.set(player.qx, player.qy, player.qz, player.qw);
           pc.networkDirLength = player.dirLength;
+          pc.networkVelocity.set(player.vx, player.vy, player.vz);
         }
       });
     });

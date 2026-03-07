@@ -139,7 +139,7 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
   }
   async start() {
     NetworkManager._instance = this;
-    this.client = new _colyseus_sdk__WEBPACK_IMPORTED_MODULE_2__.Client("http://localhost:2567");
+    this.client = new _colyseus_sdk__WEBPACK_IMPORTED_MODULE_2__.Client("https://endless-server.swevin.se");
     this.room = await this.client.joinOrCreate("my_room");
     window.addEventListener("beforeunload", () => {
       this.room?.leave();
@@ -174,7 +174,7 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
       const pc = _PlayerController_re__WEBPACK_IMPORTED_MODULE_6__["default"].get(mesh);
       if (pc) {
         pc.isRemote = true;
-        pc.targetPosition = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3();
+        pc.targetPosition = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(0, 20, 0);
         pc.targetQuaternion = new three__WEBPACK_IMPORTED_MODULE_1__.Quaternion();
       }
       callbacks.onChange(player2, () => {
@@ -182,6 +182,7 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
           pc.targetPosition.set(player2.px, player2.py, player2.pz);
           pc.targetQuaternion.set(player2.qx, player2.qy, player2.qz, player2.qw);
           pc.networkDirLength = player2.dirLength;
+          pc.networkVelocity.set(player2.vx, player2.vy, player2.vz);
         }
       });
     });
