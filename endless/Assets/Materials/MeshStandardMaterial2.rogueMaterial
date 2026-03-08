@@ -1,0 +1,125 @@
+{
+  "metadata": {
+    "version": 4.7,
+    "type": "Object",
+    "generator": "Object3D.toJSON"
+  },
+  "geometries": [
+    {
+      "uuid": "789de2ce-24e5-4e94-a095-baeae75c010d",
+      "type": "BufferGeometry",
+      "data": {
+        "attributes": {}
+      }
+    }
+  ],
+  "materials": [
+    {
+      "uuid": "430257a5-5889-4c04-a4d0-48933df0bd88",
+      "type": "MeshToonMaterial",
+      "name": "MeshStandardMaterial2",
+      "color": 16777215,
+      "emissive": 0,
+      "map": "d08248a2-ecf7-48b5-bd0d-aee82e84364a",
+      "normalMap": "d7c0ad5d-9fb0-4304-8b6d-789cc25b0e79",
+      "normalMapType": 0,
+      "normalScale": [
+        1,
+        1
+      ],
+      "gradientMap": "f68b1c3e-2288-4bda-bdd0-f4db8e3f05c6",
+      "blendColor": 0,
+      "userData": {
+        "__ASSET__": "430257a5-5889-4c04-a4d0-48933df0bd88"
+      },
+      "isMaterial": true,
+      "blending": 1,
+      "side": 0,
+      "vertexColors": false,
+      "opacity": 1,
+      "transparent": false,
+      "alphaHash": false,
+      "blendSrc": 204,
+      "blendDst": 205,
+      "blendEquation": 100,
+      "blendAlpha": 0,
+      "depthFunc": 3,
+      "depthTest": true,
+      "depthWrite": true,
+      "stencilWriteMask": 255,
+      "stencilFunc": 519,
+      "stencilRef": 0,
+      "stencilFuncMask": 255,
+      "stencilFail": 7680,
+      "stencilZFail": 7680,
+      "stencilZPass": 7680,
+      "stencilWrite": false,
+      "clipIntersection": false,
+      "clipShadows": false,
+      "colorWrite": true,
+      "polygonOffset": false,
+      "polygonOffsetFactor": 0,
+      "polygonOffsetUnits": 0,
+      "dithering": false,
+      "alphaToCoverage": false,
+      "premultipliedAlpha": false,
+      "forceSinglePass": false,
+      "allowOverride": true,
+      "visible": true,
+      "toneMapped": true,
+      "version": 14,
+      "_alphaTest": 0,
+      "isMeshToonMaterial": true,
+      "lightMapIntensity": 1,
+      "aoMapIntensity": 1,
+      "emissiveIntensity": 1,
+      "bumpScale": 1,
+      "displacementScale": 1,
+      "displacementBias": 0,
+      "wireframe": false,
+      "wireframeLinewidth": 1,
+      "wireframeLinecap": "round",
+      "wireframeLinejoin": "round",
+      "fog": true
+    }
+  ],
+  "textures": [
+    "d08248a2-ecf7-48b5-bd0d-aee82e84364a",
+    "d7c0ad5d-9fb0-4304-8b6d-789cc25b0e79",
+    "f68b1c3e-2288-4bda-bdd0-f4db8e3f05c6"
+  ],
+  "images": [],
+  "object": {
+    "uuid": "e72200bb-fdff-4b66-b544-e5c67d61831e",
+    "type": "Mesh",
+    "userData": {
+      "__IS_MATERIAL__": true
+    },
+    "layers": 1,
+    "matrix": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "up": [
+      0,
+      1,
+      0
+    ],
+    "geometry": "789de2ce-24e5-4e94-a095-baeae75c010d",
+    "material": "430257a5-5889-4c04-a4d0-48933df0bd88"
+  }
+}

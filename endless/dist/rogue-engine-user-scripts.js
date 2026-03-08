@@ -438,6 +438,88 @@ TerrainRepeat = __decorateClass([
 
 /***/ }),
 
+/***/ "./Assets/Scripts/WaterWaves.re.ts":
+/*!*****************************************!*\
+  !*** ./Assets/Scripts/WaterWaves.re.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WaterWaves)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+let WaterWaves = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super(...arguments);
+    this.waveHeight = 5;
+    this.waveSpeed = 0.5;
+    this.waveFrequency = 0.02;
+    this.time = 0;
+  }
+  start() {
+    const mesh = this.object3d;
+    if (!mesh.geometry)
+      return;
+    mesh.geometry = mesh.geometry.toNonIndexed();
+    this.positions = mesh.geometry.attributes.position;
+    this.baseX = new Float32Array(this.positions.count);
+    this.baseY = new Float32Array(this.positions.count);
+    this.baseZ = new Float32Array(this.positions.count);
+    for (let i = 0; i < this.positions.count; i++) {
+      this.baseX[i] = this.positions.getX(i);
+      this.baseY[i] = this.positions.getY(i);
+      this.baseZ[i] = this.positions.getZ(i);
+    }
+  }
+  update() {
+    if (!this.positions)
+      return;
+    this.time += rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Runtime.deltaTime * this.waveSpeed;
+    const f = this.waveFrequency;
+    const h = this.waveHeight;
+    for (let i = 0; i < this.positions.count; i++) {
+      const x = this.baseX[i];
+      const y = this.baseY[i];
+      const z = this.baseZ[i] + Math.sin(x * f + this.time) * h * 0.5 + Math.cos(y * f + this.time) * h * 0.5;
+      this.positions.setZ(i, z);
+    }
+    this.positions.needsUpdate = true;
+    this.object3d.geometry.computeVertexNormals();
+  }
+};
+__name(WaterWaves, "WaterWaves");
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
+], WaterWaves.prototype, "waveHeight", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
+], WaterWaves.prototype, "waveSpeed", 2);
+__decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.props.num()
+], WaterWaves.prototype, "waveFrequency", 2);
+WaterWaves = __decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent
+], WaterWaves);
+
+
+
+/***/ }),
+
 /***/ "./Assets/rogue_packages/RogueEngine/rogue-animator/Bricks.ts":
 /*!********************************************************************!*\
   !*** ./Assets/rogue_packages/RogueEngine/rogue-animator/Bricks.ts ***!
@@ -13868,7 +13950,8 @@ let A;const I=new Array(128).fill(void 0);function g(A){return I[A]}I.push(void 
 /******/ 	__webpack_require__("./Assets/Scripts/HelloWorld.re.ts");
 /******/ 	__webpack_require__("./Assets/Scripts/NetworkManager.re.ts");
 /******/ 	__webpack_require__("./Assets/Scripts/PlayerController.re.ts");
-/******/ 	var __webpack_exports__ = __webpack_require__("./Assets/Scripts/TerrainRepeat.re.ts");
+/******/ 	__webpack_require__("./Assets/Scripts/TerrainRepeat.re.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./Assets/Scripts/WaterWaves.re.ts");
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ 	return __webpack_exports__;

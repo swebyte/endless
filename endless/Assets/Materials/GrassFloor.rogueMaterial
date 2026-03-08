@@ -6,7 +6,7 @@
   },
   "geometries": [
     {
-      "uuid": "e84a6c1a-2d60-4ccd-929a-2a9ee3dc2722",
+      "uuid": "a70cdd70-33e3-4572-b613-76b972b90472",
       "type": "BufferGeometry",
       "data": {
         "attributes": {}
@@ -20,8 +20,8 @@
       "name": "GrassFloor",
       "color": 16777215,
       "emissive": 0,
-      "clearcoatRoughness": 0.3,
-      "map": "958e20b8-e5ea-43f9-a3d9-cad3bc88db74",
+      "clearcoatRoughness": 0,
+      "map": "8784bcee-98d5-4c60-9ed1-4d41c3622e40",
       "aoMap": "84c92300-c579-49b8-a8db-714c5512aedf",
       "aoMapIntensity": 1,
       "normalMap": "78637a2b-1355-4e69-b2af-39dbacb5aa64",
@@ -31,7 +31,7 @@
         1
       ],
       "reflectivity": 0,
-      "vertexColors": true,
+      "gradientMap": "f68b1c3e-2288-4bda-bdd0-f4db8e3f05c6",
       "blendColor": 0,
       "userData": {
         "__ASSET__": "f3f69665-f1b6-465d-b946-b6243ea24066"
@@ -39,6 +39,7 @@
       "isMaterial": true,
       "blending": 1,
       "side": 0,
+      "vertexColors": false,
       "opacity": 1,
       "transparent": false,
       "alphaHash": false,
@@ -70,7 +71,7 @@
       "allowOverride": true,
       "visible": true,
       "toneMapped": true,
-      "version": 423,
+      "version": 12,
       "_alphaTest": 0,
       "isMeshToonMaterial": true,
       "lightMapIntensity": 1,
@@ -82,18 +83,18 @@
       "wireframeLinewidth": 1,
       "wireframeLinecap": "round",
       "wireframeLinejoin": "round",
-      "fog": true,
-      "clearCoat": 10
+      "fog": true
     }
   ],
   "textures": [
-    "958e20b8-e5ea-43f9-a3d9-cad3bc88db74",
+    "8784bcee-98d5-4c60-9ed1-4d41c3622e40",
     "84c92300-c579-49b8-a8db-714c5512aedf",
-    "78637a2b-1355-4e69-b2af-39dbacb5aa64"
+    "78637a2b-1355-4e69-b2af-39dbacb5aa64",
+    "f68b1c3e-2288-4bda-bdd0-f4db8e3f05c6"
   ],
   "images": [],
   "object": {
-    "uuid": "748f2b06-a57c-436a-8519-3e8e1d692a6a",
+    "uuid": "5d40b0b2-e690-457e-a185-703d7a404d38",
     "type": "Mesh",
     "userData": {
       "__IS_MATERIAL__": true
@@ -122,7 +123,7 @@
       1,
       0
     ],
-    "geometry": "e84a6c1a-2d60-4ccd-929a-2a9ee3dc2722",
+    "geometry": "a70cdd70-33e3-4572-b613-76b972b90472",
     "material": "f3f69665-f1b6-465d-b946-b6243ea24066"
   }
 }
