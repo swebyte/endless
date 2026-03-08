@@ -105,13 +105,12 @@ var __decorateClass = (decorators, target, key, kind) => {
 
 let HelloWorld = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   awake() {
-    console.log("Hello, Rogue Engine!");
+    console.log("Hello, from HelloWorld:awake()!");
   }
   start() {
-    console.log("Hello, Rogue Engine!");
+    console.log("Hello, from HelloWorld:start()!");
   }
   update() {
-    console.log("Hello, Rogue Engine!");
   }
 };
 __name(HelloWorld, "HelloWorld");
