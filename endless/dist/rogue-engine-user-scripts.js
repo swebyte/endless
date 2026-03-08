@@ -386,6 +386,73 @@ PlayerController = __decorateClass([
 
 /***/ }),
 
+/***/ "./Assets/Scripts/TerrainRepeat.re.ts":
+/*!********************************************!*\
+  !*** ./Assets/Scripts/TerrainRepeat.re.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TerrainRepeat)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
+
+
+let TerrainRepeat = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  awake() {
+  }
+  start() {
+    const mesh = this.object3d;
+    const material = mesh.material;
+    const repeat = 40;
+    console.log(mesh.material);
+    if (material.map) {
+      material.map.wrapS = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
+      material.map.wrapT = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
+      material.map.repeat.set(repeat, repeat);
+      material.map.needsUpdate = true;
+    }
+    if (material.normalMap) {
+      material.normalMap.wrapS = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
+      material.normalMap.wrapT = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
+      material.normalMap.repeat.set(repeat, repeat);
+      material.normalMap.needsUpdate = true;
+    }
+    if (material.roughnessMap) {
+      material.roughnessMap.wrapS = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
+      material.roughnessMap.wrapT = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
+      material.roughnessMap.repeat.set(repeat, repeat);
+      material.roughnessMap.needsUpdate = true;
+    }
+  }
+  update() {
+  }
+};
+__name(TerrainRepeat, "TerrainRepeat");
+TerrainRepeat = __decorateClass([
+  rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent
+], TerrainRepeat);
+
+
+
+/***/ }),
+
 /***/ "./Assets/rogue_packages/RogueEngine/rogue-animator/Bricks.ts":
 /*!********************************************************************!*\
   !*** ./Assets/rogue_packages/RogueEngine/rogue-animator/Bricks.ts ***!
@@ -14308,7 +14375,8 @@ class HDRLoader extends three__WEBPACK_IMPORTED_MODULE_0__.DataTextureLoader {
 /******/ 	__webpack_require__("./Assets/Scripts/GameLogic.re.ts");
 /******/ 	__webpack_require__("./Assets/Scripts/HDR.re.ts");
 /******/ 	__webpack_require__("./Assets/Scripts/NetworkManager.re.ts");
-/******/ 	var __webpack_exports__ = __webpack_require__("./Assets/Scripts/PlayerController.re.ts");
+/******/ 	__webpack_require__("./Assets/Scripts/PlayerController.re.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./Assets/Scripts/TerrainRepeat.re.ts");
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ 	return __webpack_exports__;

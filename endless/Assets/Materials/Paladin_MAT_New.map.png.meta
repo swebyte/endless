@@ -1,0 +1,47 @@
+{
+  "uuid": "1fae0ca2-3e38-431b-8475-ae5b9836710c",
+  "type": "Texture",
+  "object": {
+    "metadata": {
+      "version": 4.7,
+      "type": "Texture",
+      "generator": "Texture.toJSON"
+    },
+    "uuid": "1fae0ca2-3e38-431b-8475-ae5b9836710c",
+    "name": "Paladin_MAT_New.map",
+    "image": "e2f4d6e6-0e30-4bef-9b03-9ea71646b843",
+    "mapping": 300,
+    "channel": 0,
+    "repeat": [
+      1,
+      1
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "center": [
+      0,
+      0
+    ],
+    "rotation": 0,
+    "wrap": [
+      1000,
+      1000
+    ],
+    "format": 1023,
+    "internalFormat": null,
+    "type": 1009,
+    "colorSpace": "srgb",
+    "minFilter": 1008,
+    "magFilter": 1006,
+    "anisotropy": 1,
+    "flipY": false,
+    "generateMipmaps": true,
+    "premultiplyAlpha": false,
+    "unpackAlignment": 4,
+    "userData": {
+      "mimeType": "image/webp"
+    }
+  }
+}

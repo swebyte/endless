@@ -1,0 +1,47 @@
+{
+  "uuid": "ef8212ed-e4ae-491f-a433-df009b34db52",
+  "type": "Texture",
+  "object": {
+    "metadata": {
+      "version": 4.7,
+      "type": "Texture",
+      "generator": "Texture.toJSON"
+    },
+    "uuid": "ef8212ed-e4ae-491f-a433-df009b34db52",
+    "name": "Paladin_MAT_New.specularColorMap",
+    "image": "0a26377d-2c70-46dc-8734-19e553e1d690",
+    "mapping": 300,
+    "channel": 0,
+    "repeat": [
+      1,
+      1
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "center": [
+      0,
+      0
+    ],
+    "rotation": 0,
+    "wrap": [
+      1000,
+      1000
+    ],
+    "format": 1023,
+    "internalFormat": null,
+    "type": 1009,
+    "colorSpace": "srgb",
+    "minFilter": 1008,
+    "magFilter": 1006,
+    "anisotropy": 1,
+    "flipY": false,
+    "generateMipmaps": true,
+    "premultiplyAlpha": false,
+    "unpackAlignment": 4,
+    "userData": {
+      "mimeType": "image/webp"
+    }
+  }
+}

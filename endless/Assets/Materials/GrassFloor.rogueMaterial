@@ -6,7 +6,7 @@
   },
   "geometries": [
     {
-      "uuid": "b3566330-e708-4a52-a2f5-62d3e82818f5",
+      "uuid": "e84a6c1a-2d60-4ccd-929a-2a9ee3dc2722",
       "type": "BufferGeometry",
       "data": {
         "attributes": {}
@@ -16,20 +16,22 @@
   "materials": [
     {
       "uuid": "f3f69665-f1b6-465d-b946-b6243ea24066",
-      "type": "MeshStandardMaterial",
+      "type": "MeshToonMaterial",
       "name": "GrassFloor",
       "color": 16777215,
-      "roughness": 1,
-      "metalness": 0,
       "emissive": 0,
-      "map": "aa1939f0-e0bb-4952-b331-8e7ba08306f9",
-      "envMapRotation": [
-        0,
-        0,
-        0,
-        "XYZ"
+      "clearcoatRoughness": 0.3,
+      "map": "958e20b8-e5ea-43f9-a3d9-cad3bc88db74",
+      "aoMap": "84c92300-c579-49b8-a8db-714c5512aedf",
+      "aoMapIntensity": 1,
+      "normalMap": "78637a2b-1355-4e69-b2af-39dbacb5aa64",
+      "normalMapType": 0,
+      "normalScale": [
+        1,
+        1
       ],
-      "envMapIntensity": 1,
+      "reflectivity": 0,
+      "vertexColors": true,
       "blendColor": 0,
       "userData": {
         "__ASSET__": "f3f69665-f1b6-465d-b946-b6243ea24066"
@@ -37,7 +39,6 @@
       "isMaterial": true,
       "blending": 1,
       "side": 0,
-      "vertexColors": false,
       "opacity": 1,
       "transparent": false,
       "alphaHash": false,
@@ -69,34 +70,30 @@
       "allowOverride": true,
       "visible": true,
       "toneMapped": true,
-      "version": 16,
+      "version": 423,
       "_alphaTest": 0,
-      "isMeshStandardMaterial": true,
+      "isMeshToonMaterial": true,
       "lightMapIntensity": 1,
-      "aoMapIntensity": 1,
       "emissiveIntensity": 1,
       "bumpScale": 1,
-      "normalMapType": 0,
-      "normalScale": [
-        1,
-        1
-      ],
       "displacementScale": 1,
       "displacementBias": 0,
       "wireframe": false,
       "wireframeLinewidth": 1,
       "wireframeLinecap": "round",
       "wireframeLinejoin": "round",
-      "flatShading": false,
-      "fog": true
+      "fog": true,
+      "clearCoat": 10
     }
   ],
   "textures": [
-    "aa1939f0-e0bb-4952-b331-8e7ba08306f9"
+    "958e20b8-e5ea-43f9-a3d9-cad3bc88db74",
+    "84c92300-c579-49b8-a8db-714c5512aedf",
+    "78637a2b-1355-4e69-b2af-39dbacb5aa64"
   ],
   "images": [],
   "object": {
-    "uuid": "7304f493-a40e-4139-9139-cd02b80a7067",
+    "uuid": "748f2b06-a57c-436a-8519-3e8e1d692a6a",
     "type": "Mesh",
     "userData": {
       "__IS_MATERIAL__": true
@@ -125,7 +122,7 @@
       1,
       0
     ],
-    "geometry": "b3566330-e708-4a52-a2f5-62d3e82818f5",
+    "geometry": "e84a6c1a-2d60-4ccd-929a-2a9ee3dc2722",
     "material": "f3f69665-f1b6-465d-b946-b6243ea24066"
   }
 }
