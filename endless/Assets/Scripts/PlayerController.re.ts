@@ -25,6 +25,17 @@ export default class PlayerController extends RE.Component {
   private groundedTimer = 0;
   private groundedGrace = 0.15;
 
+  private isAttacking = false;
+
+  start() {
+    this.animator.onAnimationFinished(() => {
+      if (this.isAttacking) {
+        this.isAttacking = false;
+        this.animator.mix("idle", 0.3);
+      }
+    });
+  }
+
   update() {
     if (this.isRemote) {
       this.targetPosition.x += this.networkVelocity.x * RE.Runtime.deltaTime;
@@ -43,28 +54,7 @@ export default class PlayerController extends RE.Component {
       return;
     }
 
-    if(RE.Input.
-
-    // Local player logic — grace timer prevents flicker on uneven terrain
-    if (this.controller.isGrounded) {
-      this.groundedTimer = this.groundedGrace;
-      this.isGrounded = true;
-    } else {
-      this.groundedTimer -= RE.Runtime.deltaTime;
-      if (this.groundedTimer <= 0) this.isGrounded = false;
-    }
-
-    if (this.isGrounded) {
-      const dirLength = this.controller.movementDirection.length();
-      if (dirLength > 0) {
-        this.animator.setBaseAction("idle");
-        this.animator.mix("run", 0.1, dirLength);
-      } else {
-        this.animator.mix("idle");
-      }
-    } else {
-      this.animator.mix("falling");
-    }
+    this.handleInput();
 
     this.sendTimer += RE.Runtime.deltaTime;
     if (this.sendTimer >= this.sendRate) {
@@ -87,6 +77,39 @@ export default class PlayerController extends RE.Component {
         vel.z,
         dirLength,
       );
+    }
+  }
+
+  private handleInput() {
+    // Grace timer prevents flicker on uneven terrain
+    if (this.controller.isGrounded) {
+      this.groundedTimer = this.groundedGrace;
+      this.isGrounded = true;
+    } else {
+      this.groundedTimer -= RE.Runtime.deltaTime;
+      if (this.groundedTimer <= 0) this.isGrounded = false;
+    }
+
+    if (RE.Input.mouse.isLeftButtonPressed && !this.isAttacking) {
+      this.isAttacking = true;
+      const attackAction = this.animator.getAction("attack");
+      if (attackAction) {
+        attackAction.loop = THREE.LoopOnce;
+        attackAction.clampWhenFinished = true;
+      }
+      this.animator.mix("attack");
+    } else if (this.isAttacking) {
+      // hold attack animation until finished
+    } else if (this.isGrounded) {
+      const dirLength = this.controller.movementDirection.length();
+      if (dirLength > 0) {
+        this.animator.setBaseAction("idle");
+        this.animator.mix("run", 0.1, dirLength);
+      } else {
+        this.animator.mix("idle");
+      }
+    } else {
+      this.animator.mix("falling");
     }
   }
 }

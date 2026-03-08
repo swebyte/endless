@@ -309,6 +309,15 @@ let PlayerController = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_2__.C
     this.isGrounded = false;
     this.groundedTimer = 0;
     this.groundedGrace = 0.15;
+    this.isAttacking = false;
+  }
+  start() {
+    this.animator.onAnimationFinished(() => {
+      if (this.isAttacking) {
+        this.isAttacking = false;
+        this.animator.mix("idle", 0.3);
+      }
+    });
   }
   update() {
     if (this.isRemote) {
@@ -325,25 +334,7 @@ let PlayerController = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_2__.C
       }
       return;
     }
-    if (this.controller.isGrounded) {
-      this.groundedTimer = this.groundedGrace;
-      this.isGrounded = true;
-    } else {
-      this.groundedTimer -= rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Runtime.deltaTime;
-      if (this.groundedTimer <= 0)
-        this.isGrounded = false;
-    }
-    if (this.isGrounded) {
-      const dirLength = this.controller.movementDirection.length();
-      if (dirLength > 0) {
-        this.animator.setBaseAction("idle");
-        this.animator.mix("run", 0.1, dirLength);
-      } else {
-        this.animator.mix("idle");
-      }
-    } else {
-      this.animator.mix("falling");
-    }
+    this.handleInput();
     this.sendTimer += rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Runtime.deltaTime;
     if (this.sendTimer >= this.sendRate) {
       this.sendTimer = 0;
@@ -353,6 +344,36 @@ let PlayerController = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_2__.C
       const vel = this.controller.playerVelocity;
       const dirLength = dir.length();
       _NetworkManager_re__WEBPACK_IMPORTED_MODULE_4__["default"].sendTransform(p.x, p.y, p.z, q.x, q.y, q.z, q.w, vel.x, vel.y, vel.z, dirLength);
+    }
+  }
+  handleInput() {
+    if (this.controller.isGrounded) {
+      this.groundedTimer = this.groundedGrace;
+      this.isGrounded = true;
+    } else {
+      this.groundedTimer -= rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Runtime.deltaTime;
+      if (this.groundedTimer <= 0)
+        this.isGrounded = false;
+    }
+    if (rogue_engine__WEBPACK_IMPORTED_MODULE_2__.Input.mouse.isLeftButtonPressed && !this.isAttacking) {
+      this.isAttacking = true;
+      const attackAction = this.animator.getAction("attack");
+      if (attackAction) {
+        attackAction.loop = three__WEBPACK_IMPORTED_MODULE_3__.LoopOnce;
+        attackAction.clampWhenFinished = true;
+      }
+      this.animator.mix("attack");
+    } else if (this.isAttacking) {
+    } else if (this.isGrounded) {
+      const dirLength = this.controller.movementDirection.length();
+      if (dirLength > 0) {
+        this.animator.setBaseAction("idle");
+        this.animator.mix("run", 0.1, dirLength);
+      } else {
+        this.animator.mix("idle");
+      }
+    } else {
+      this.animator.mix("falling");
     }
   }
 };
