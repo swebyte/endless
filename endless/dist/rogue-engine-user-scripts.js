@@ -139,7 +139,7 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Com
   }
   async start() {
     NetworkManager._instance = this;
-    this.client = new _colyseus_sdk__WEBPACK_IMPORTED_MODULE_2__.Client("https://endless-server.swevin.se");
+    this.client = new _colyseus_sdk__WEBPACK_IMPORTED_MODULE_2__.Client("http://localhost:2567");
     this.room = await this.client.joinOrCreate("my_room");
     window.addEventListener("beforeunload", () => {
       this.room?.leave();
