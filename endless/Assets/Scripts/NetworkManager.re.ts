@@ -1,9 +1,9 @@
-import * as RE from "rogue-engine";
-import * as THREE from "three";
-import { Client, Room, Callbacks } from "@colyseus/sdk";
+import { Callbacks, Client, Room } from "@colyseus/sdk";
+import RapierThirdPersonController from "@RE/RogueEngine/rogue-rapier/Components/Controllers/RapierThirdPersonController.re";
 import RapierBody from "@RE/RogueEngine/rogue-rapier/Components/RapierBody.re";
 import RapierKinematicCharacterController from "@RE/RogueEngine/rogue-rapier/Components/RapierKinematicCharacterController.re";
-import RapierThirdPersonController from "@RE/RogueEngine/rogue-rapier/Components/Controllers/RapierThirdPersonController.re";
+import * as RE from "rogue-engine";
+import * as THREE from "three";
 import PlayerController from "./PlayerController.re";
 
 @RE.registerComponent
@@ -53,8 +53,8 @@ export default class NetworkManager extends RE.Component {
 
   async start() {
     NetworkManager._instance = this;
-    this.client = new Client("http://localhost:2567");
-    // this.client = new Client("https://endless-server.swevin.se");
+    // this.client = new Client("http://localhost:2567");
+    this.client = new Client("https://endless-server.swevin.se");
 
     this.room = await this.client.joinOrCreate("my_room");
 

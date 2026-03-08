@@ -6,10 +6,10 @@ export default class TerrainRepeat extends RE.Component {
   awake() {}
 
   start() {
+    console.log("Hello, from TerrainRepeat:start()!");
     const mesh = this.object3d as THREE.Mesh;
     const material = mesh.material as THREE.MeshStandardMaterial;
     const repeat = 40;
-    console.log(mesh.material);
     if (material.map) {
       material.map.wrapS = THREE.RepeatWrapping;
       material.map.wrapT = THREE.RepeatWrapping;
@@ -17,7 +17,6 @@ export default class TerrainRepeat extends RE.Component {
       material.map.needsUpdate = true;
     }
 
-    // Do the same for other maps
     if (material.normalMap) {
       material.normalMap.wrapS = THREE.RepeatWrapping;
       material.normalMap.wrapT = THREE.RepeatWrapping;
