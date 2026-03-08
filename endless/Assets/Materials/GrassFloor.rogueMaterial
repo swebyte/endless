@@ -6,7 +6,7 @@
   },
   "geometries": [
     {
-      "uuid": "a0195c84-0adc-4546-a3ee-3b9052ab7b7f",
+      "uuid": "b3566330-e708-4a52-a2f5-62d3e82818f5",
       "type": "BufferGeometry",
       "data": {
         "attributes": {}
@@ -22,6 +22,7 @@
       "roughness": 1,
       "metalness": 0,
       "emissive": 0,
+      "map": "aa1939f0-e0bb-4952-b331-8e7ba08306f9",
       "envMapRotation": [
         0,
         0,
@@ -68,7 +69,7 @@
       "allowOverride": true,
       "visible": true,
       "toneMapped": true,
-      "version": 2,
+      "version": 16,
       "_alphaTest": 0,
       "isMeshStandardMaterial": true,
       "lightMapIntensity": 1,
@@ -90,8 +91,12 @@
       "fog": true
     }
   ],
+  "textures": [
+    "aa1939f0-e0bb-4952-b331-8e7ba08306f9"
+  ],
+  "images": [],
   "object": {
-    "uuid": "837b3c1a-8e61-48c9-bac7-642e15623eec",
+    "uuid": "7304f493-a40e-4139-9139-cd02b80a7067",
     "type": "Mesh",
     "userData": {
       "__IS_MATERIAL__": true
@@ -120,8 +125,7 @@
       1,
       0
     ],
-    "geometry": "a0195c84-0adc-4546-a3ee-3b9052ab7b7f",
+    "geometry": "b3566330-e708-4a52-a2f5-62d3e82818f5",
     "material": "f3f69665-f1b6-465d-b946-b6243ea24066"
-  },
-  "images": []
+  }
 }

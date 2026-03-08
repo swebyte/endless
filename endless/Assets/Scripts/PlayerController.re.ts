@@ -21,6 +21,10 @@ export default class PlayerController extends RE.Component {
   private sendRate = 0.05;
   private sendTimer = 0;
 
+  private isGrounded = false;
+  private groundedTimer = 0;
+  private groundedGrace = 0.15;
+
   update() {
     if (this.isRemote) {
       this.targetPosition.x += this.networkVelocity.x * RE.Runtime.deltaTime;
@@ -39,8 +43,16 @@ export default class PlayerController extends RE.Component {
       return;
     }
 
-    // Local player logic
+    // Local player logic — grace timer prevents flicker on uneven terrain
     if (this.controller.isGrounded) {
+      this.groundedTimer = this.groundedGrace;
+      this.isGrounded = true;
+    } else {
+      this.groundedTimer -= RE.Runtime.deltaTime;
+      if (this.groundedTimer <= 0) this.isGrounded = false;
+    }
+
+    if (this.isGrounded) {
       const dirLength = this.controller.movementDirection.length();
       if (dirLength > 0) {
         this.animator.setBaseAction("idle");

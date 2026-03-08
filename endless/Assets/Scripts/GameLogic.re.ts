@@ -1,12 +1,17 @@
-import * as RE from "rogue-engine";
+import RapierThirdPersonController from "@RE/RogueEngine/rogue-rapier/Components/Controllers/RapierThirdPersonController.re";
 import RapierBody from "@RE/RogueEngine/rogue-rapier/Components/RapierBody.re";
 import RapierKinematicCharacterController from "@RE/RogueEngine/rogue-rapier/Components/RapierKinematicCharacterController.re";
-import RapierThirdPersonController from "@RE/RogueEngine/rogue-rapier/Components/Controllers/RapierThirdPersonController.re";
-
+import * as RE from "rogue-engine";
 @RE.registerComponent
 export default class GameLogic extends RE.Component {
   isStaticModel = true;
   @RE.props.prefab() playerPrefab: RE.Prefab;
+
+  init() {
+    if (RE.Runtime.isRunning) {
+      this.start();
+    }
+  }
 
   start() {
     // Instantiate the local player

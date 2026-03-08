@@ -6,7 +6,7 @@
   },
   "geometries": [
     {
-      "uuid": "e9cc257e-a609-48c6-ba30-c9a57f0e9c26",
+      "uuid": "ae05358b-be20-4444-b71b-5e14b409a98a",
       "type": "BufferGeometry",
       "data": {
         "attributes": {}
@@ -15,14 +15,13 @@
   ],
   "materials": [
     {
-      "uuid": "7e07463c-ca28-4f04-a566-de2a0ee0f729",
+      "uuid": "f8578552-2073-421f-a86c-94799696a02d",
       "type": "MeshStandardMaterial",
       "name": "MeshStandardMaterial",
-      "color": 16777215,
-      "roughness": 1,
-      "metalness": 0,
+      "color": 12850710,
+      "roughness": 0,
+      "metalness": 0.9,
       "emissive": 0,
-      "map": "4eb4c28e-2ae1-4a08-bb29-ee3bbc28e26d",
       "envMapRotation": [
         0,
         0,
@@ -32,7 +31,7 @@
       "envMapIntensity": 1,
       "blendColor": 0,
       "userData": {
-        "__ASSET__": "7e07463c-ca28-4f04-a566-de2a0ee0f729"
+        "__ASSET__": "f8578552-2073-421f-a86c-94799696a02d"
       },
       "isMaterial": true,
       "blending": 1,
@@ -69,10 +68,10 @@
       "allowOverride": true,
       "visible": true,
       "toneMapped": true,
-      "version": 2,
+      "version": 316,
       "_alphaTest": 0,
       "isMeshStandardMaterial": true,
-      "lightMapIntensity": 1,
+      "lightMapIntensity": 3,
       "aoMapIntensity": 1,
       "emissiveIntensity": 1,
       "bumpScale": 1,
@@ -91,12 +90,8 @@
       "fog": true
     }
   ],
-  "textures": [
-    "4eb4c28e-2ae1-4a08-bb29-ee3bbc28e26d"
-  ],
-  "images": [],
   "object": {
-    "uuid": "214d9380-aa24-402e-b84c-0e928cde75fa",
+    "uuid": "37cd018b-5e86-4402-915f-580156996da8",
     "type": "Mesh",
     "userData": {
       "__IS_MATERIAL__": true
@@ -125,7 +120,8 @@
       1,
       0
     ],
-    "geometry": "e9cc257e-a609-48c6-ba30-c9a57f0e9c26",
-    "material": "7e07463c-ca28-4f04-a566-de2a0ee0f729"
-  }
+    "geometry": "ae05358b-be20-4444-b71b-5e14b409a98a",
+    "material": "f8578552-2073-421f-a86c-94799696a02d"
+  },
+  "images": []
 }
