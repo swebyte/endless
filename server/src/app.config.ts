@@ -1,11 +1,10 @@
 import {
-  defineServer,
+  createEndpoint,
+  createRouter,
   defineRoom,
+  defineServer,
   monitor,
   playground,
-  createRouter,
-  createEndpoint,
-  matchMaker,
 } from "colyseus";
 
 /**
@@ -13,13 +12,13 @@ import {
  */
 import { MyRoom } from "./rooms/MyRoom.js";
 
-matchMaker.controller.getCorsHeaders = function (req: any) {
-  return {
-    "Access-Control-Allow-Origin": req.headers?.origin || "*",
-    "Access-Control-Allow-Credentials": "true",
-    Vary: "Origin",
-  };
-};
+// matchMaker.controller.getCorsHeaders = function (req: any) {
+//   return {
+//     "Access-Control-Allow-Origin": req.headers?.origin || "*",
+//     "Access-Control-Allow-Credentials": "true",
+//     Vary: "Origin",
+//   };
+// };
 
 const server = defineServer({
   /**

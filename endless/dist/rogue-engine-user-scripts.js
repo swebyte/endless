@@ -164,12 +164,19 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_4__.Com
   constructor() {
     super(...arguments);
     this.remotePlayers = new Map();
+    this.localPlayerController = null;
   }
   static get instance() {
     return this._instance;
   }
   static get isReady() {
     return !!this._instance?.room;
+  }
+  static sendAttackStart(targetId) {
+    this._instance?.room?.send("attack_start", { targetId });
+  }
+  static sendAttackStop() {
+    this._instance?.room?.send("attack_stop");
   }
   static sendTransform(px, py, pz, qx, qy, qz, qw, vx, vy, vz, dirLength) {
     this._instance?.room?.send("transform", {
@@ -188,7 +195,7 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_4__.Com
   }
   async start() {
     NetworkManager._instance = this;
-    this.client = new _colyseus_sdk__WEBPACK_IMPORTED_MODULE_0__.Client("https://endless-server.swevin.se");
+    this.client = new _colyseus_sdk__WEBPACK_IMPORTED_MODULE_0__.Client("http://localhost:2567");
     this.room = await this.client.joinOrCreate("my_room");
     window.addEventListener("beforeunload", () => {
       this.room?.leave();
@@ -204,6 +211,7 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_4__.Com
     const tpc = _RE_RogueEngine_rogue_rapier_Components_Controllers_RapierThirdPersonController_re__WEBPACK_IMPORTED_MODULE_1__["default"].get(player);
     if (tpc)
       tpc.enabled = true;
+    this.localPlayerController = _PlayerController_re__WEBPACK_IMPORTED_MODULE_6__["default"].get(player);
     const callbacks = _colyseus_sdk__WEBPACK_IMPORTED_MODULE_0__.Callbacks.get(this.room);
     callbacks.onAdd("players", (player2, sessionId) => {
       if (sessionId === this.room.sessionId)
@@ -232,6 +240,7 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_4__.Com
           pc.targetQuaternion.set(player2.qx, player2.qy, player2.qz, player2.qw);
           pc.networkDirLength = player2.dirLength;
           pc.networkVelocity.set(player2.vx, player2.vy, player2.vz);
+          pc.hp = player2.hp;
         }
       });
     });
@@ -241,6 +250,19 @@ let NetworkManager = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_4__.Com
       if (mesh) {
         mesh.parent?.remove(mesh);
         this.remotePlayers.delete(sessionId);
+      }
+    });
+    this.setupCombatHandlers();
+  }
+  setupCombatHandlers() {
+    this.room.onMessage("attack_hit", (event) => {
+      if (event.targetId === this.room.sessionId) {
+        if (this.localPlayerController) {
+          this.localPlayerController.hp = event.targetHp;
+        }
+        console.log(`[Combat] You were hit by ${event.attackerId} for ${event.damage} dmg \u2014 HP: ${event.targetHp}`);
+      } else {
+        console.log(`[Combat] ${event.attackerId} hit ${event.targetId} for ${event.damage} dmg \u2014 target HP: ${event.targetHp}`);
       }
     });
   }
@@ -304,6 +326,7 @@ let PlayerController = class extends rogue_engine__WEBPACK_IMPORTED_MODULE_2__.C
     this.targetQuaternion = new three__WEBPACK_IMPORTED_MODULE_3__.Quaternion();
     this.networkDirLength = 0;
     this.networkVelocity = new three__WEBPACK_IMPORTED_MODULE_3__.Vector3();
+    this.hp = 100;
     this.sendRate = 0.05;
     this.sendTimer = 0;
     this.isGrounded = false;

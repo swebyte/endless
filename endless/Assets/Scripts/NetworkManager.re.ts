@@ -19,6 +19,14 @@ export default class NetworkManager extends RE.Component {
     return !!this._instance?.room;
   }
 
+  static sendAttackStart(targetId: string) {
+    this._instance?.room?.send("attack_start", { targetId });
+  }
+
+  static sendAttackStop() {
+    this._instance?.room?.send("attack_stop");
+  }
+
   static sendTransform(
     px: number,
     py: number,
@@ -50,11 +58,12 @@ export default class NetworkManager extends RE.Component {
   private client: Client;
   private room: Room;
   private remotePlayers: Map<string, THREE.Object3D> = new Map();
+  private localPlayerController: PlayerController | null = null;
 
   async start() {
     NetworkManager._instance = this;
-    // this.client = new Client("http://localhost:2567");
-    this.client = new Client("https://endless-server.swevin.se");
+    this.client = new Client("http://localhost:2567");
+    // this.client = new Client("https://endless-server.swevin.se");
 
     this.room = await this.client.joinOrCreate("my_room");
 
@@ -71,6 +80,7 @@ export default class NetworkManager extends RE.Component {
     if (controller) controller.enabled = true;
     const tpc = RapierThirdPersonController.get(player);
     if (tpc) tpc.enabled = true;
+    this.localPlayerController = PlayerController.get(player);
 
     const callbacks = Callbacks.get(this.room);
 
@@ -104,6 +114,7 @@ export default class NetworkManager extends RE.Component {
           pc.targetQuaternion.set(player.qx, player.qy, player.qz, player.qw);
           pc.networkDirLength = player.dirLength;
           pc.networkVelocity.set(player.vx, player.vy, player.vz);
+          pc.hp = player.hp;
         }
       });
     });
@@ -114,6 +125,24 @@ export default class NetworkManager extends RE.Component {
       if (mesh) {
         mesh.parent?.remove(mesh);
         this.remotePlayers.delete(sessionId);
+      }
+    });
+
+    this.setupCombatHandlers();
+  }
+
+  private setupCombatHandlers() {
+    this.room.onMessage("attack_hit", (event: { attackerId: string; targetId: string; damage: number; targetHp: number }) => {
+      if (event.targetId === this.room.sessionId) {
+        // We were hit — update local HP
+        if (this.localPlayerController) {
+          this.localPlayerController.hp = event.targetHp;
+        }
+        console.log(`[Combat] You were hit by ${event.attackerId} for ${event.damage} dmg — HP: ${event.targetHp}`);
+      } else {
+        // A remote player was hit — their HP comes through schema onChange,
+        // but log it for debugging
+        console.log(`[Combat] ${event.attackerId} hit ${event.targetId} for ${event.damage} dmg — target HP: ${event.targetHp}`);
       }
     });
   }

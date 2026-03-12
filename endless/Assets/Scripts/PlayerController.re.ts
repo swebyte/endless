@@ -17,6 +17,7 @@ export default class PlayerController extends RE.Component {
   targetQuaternion: THREE.Quaternion = new THREE.Quaternion();
   networkDirLength: number = 0;
   networkVelocity: THREE.Vector3 = new THREE.Vector3();
+  hp: number = 100;
 
   private sendRate = 0.05;
   private sendTimer = 0;

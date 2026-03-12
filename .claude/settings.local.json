@@ -5,7 +5,8 @@
       "Bash(ng new:*)",
       "Bash(npm install:*)",
       "Bash(ng generate:*)",
-      "Bash(ng build:*)"
+      "Bash(ng build:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

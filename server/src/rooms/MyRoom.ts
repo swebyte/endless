@@ -1,6 +1,7 @@
 import { Room, Client, CloseCode } from "colyseus";
 import { MyRoomState } from "./schema/MyRoomState.js";
 import { PlayerState } from "./schema/PlayerState.js";
+import { combatService } from "../services/CombatService.js";
 
 interface TransformMessage {
   px: number;
@@ -14,6 +15,10 @@ interface TransformMessage {
   vy: number;
   vz: number;
   dirLength: number;
+}
+
+interface AttackStartMessage {
+  targetId: string;
 }
 
 export class MyRoom extends Room {
@@ -37,6 +42,15 @@ export class MyRoom extends Room {
       player.vz = data.vz;
       player.dirLength = data.dirLength;
     },
+
+    attack_start: (client: Client, data: AttackStartMessage) => {
+      if (!data.targetId) return;
+      combatService.startAttack(client.sessionId, data.targetId, this);
+    },
+
+    attack_stop: (client: Client, _data: any) => {
+      combatService.stopAttack(client.sessionId);
+    },
   };
 
   onCreate(options: any) {}
@@ -48,6 +62,7 @@ export class MyRoom extends Room {
 
   onLeave(client: Client, code: CloseCode) {
     console.log(client.sessionId, "left!", code);
+    combatService.onPlayerLeave(client.sessionId);
     this.state.players.delete(client.sessionId);
   }
 

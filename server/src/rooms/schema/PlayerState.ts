@@ -19,4 +19,7 @@ export class PlayerState extends Schema {
 
   // Animation
   @type("float32") dirLength: number = 0;
+
+  // Combat
+  @type("float32") hp: number = 100;
 }
